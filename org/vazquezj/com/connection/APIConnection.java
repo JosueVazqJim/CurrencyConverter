@@ -7,11 +7,14 @@ import com.google.gson.JsonParser;
 import org.vazquezj.com.modelos.CambioRecord;
 import org.vazquezj.com.modelos.CambioResponse;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class APIConnection {
     private static final String API_KEY = "043dc0c335288a9efc5cdd23";
@@ -19,9 +22,13 @@ public class APIConnection {
     private HttpClient client;
     private static Gson gson;
 
+    private List<CambioResponse> lstCambioResponse;
+
+
     public APIConnection() {
         this.client = HttpClient.newHttpClient(); // Crear un cliente HTTP
         this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.lstCambioResponse = new ArrayList<>();
     }
 
     public CambioResponse convertCurrency(String base, String target, double amount) {
@@ -38,6 +45,7 @@ public class APIConnection {
         if (cambioResponse == null) {
             return null;
         }
+        lstCambioResponse.add(cambioResponse);
         return cambioResponse;
     }
 
@@ -87,5 +95,17 @@ public class APIConnection {
             return cambioResponse;
         }
         return cambioResponse;
+    }
+
+    public void saveRequest() {
+        //probamos escribir sobre un archivo
+        try {
+            FileWriter escritura = new FileWriter("cambio.json");
+            escritura.write(gson.toJson(lstCambioResponse)); //deboemos pasar el objeto a string y es posible pues ya sobreescribimos el metodo toString
+            //podriamos escribir mejor un json
+            escritura.close(); //cerramos el archivo
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
