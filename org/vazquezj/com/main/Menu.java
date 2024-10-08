@@ -2,16 +2,20 @@ package org.vazquezj.com.main;
 
 import org.vazquezj.com.connection.APIConnection;
 import org.vazquezj.com.connection.CurrencyValidator;
-import org.vazquezj.com.modelos.CambioResponse;
+import org.vazquezj.com.math.ConversionsOperations;
+import org.vazquezj.com.modelos.CurrencyResponse;
+import org.vazquezj.com.modelos.ExchangeRateResponse;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
     private CurrencyValidator currencyValidator;
+    private ConversionsOperations conversionsOperations;
 
     public Menu() {
         this.currencyValidator = new CurrencyValidator("org/vazquezj/com/sources/currency.txt");
+        this.conversionsOperations = new ConversionsOperations();
     }
 
     // Método para mostrar el menú y gestionar las opciones
@@ -24,8 +28,15 @@ public class Menu {
             System.out.println("===== Exchange Rate  =====");
             System.out.println("1. Make Conversion");
             System.out.println("2. Show Valid Currencies");
-            System.out.println("3. Exit");
-            System.out.print("Choose an option (1 - 3): ");
+            System.out.println("3. USD -> MXN");
+            System.out.println("4. MXN -> USD");
+            System.out.println("5. EUR -> MXN");
+            System.out.println("6. MXN -> EUR");
+            System.out.println("7. ARS -> MXN");
+            System.out.println("8. MXN -> ARS");
+            System.out.println("9. Show History");
+            System.out.println("0. Exit");
+            System.out.print("Choose an option (0 to 9): ");
 
             int option = scanner.nextInt();
 
@@ -36,7 +47,7 @@ public class Menu {
                 double amount = getValidAmount(scanner);
 
                 // Llamar al método para realizar la conversión
-                CambioResponse result = apiConnection.convertCurrency(base, target, amount);
+                CurrencyResponse result = apiConnection.convertCurrency(base, target, amount);
 
                 if (result != null) {
                     // Si la conversión fue exitosa, mostrar los resultados
@@ -49,12 +60,104 @@ public class Menu {
                     System.out.println("Oops, something not works. Try again.");
                 }
             }
-            // Opción 2: Mostrar las monedas válidas
+
             else if (option == 2) {
                 showValidCurrencies();
+            } else if (option == 3) {
+                double amount = getValidAmount(scanner);
+                ExchangeRateResponse result = apiConnection.requestCurrency("USD");
+
+                if (result != null) {
+                    // Si la conversión fue exitosa, mostrar los resultados
+                    double conversionCurrency = conversionsOperations.convertCurrency(result, amount, "MXN");
+                    System.out.println("\nSuccess:");
+                    System.out.println("base Currency: USD");
+                    System.out.println("Target Currency: MXN");
+                    System.out.println("Amount: " + amount);
+                    System.out.println("Conversion result: " + conversionCurrency);
+                } else {
+                    System.out.println("Oops, something not works. Try again.");
+                }
+            } else if (option == 4){
+                double amount = getValidAmount(scanner);
+                ExchangeRateResponse result = apiConnection.requestCurrency("MXN");
+
+                if (result != null) {
+                    // Si la conversión fue exitosa, mostrar los resultados
+                    double conversionCurrency = conversionsOperations.convertCurrency(result, amount, "USD");
+                    System.out.println("\nSuccess:");
+                    System.out.println("base Currency: MXN");
+                    System.out.println("Target Currency: USD");
+                    System.out.println("Amount: " + amount);
+                    System.out.println("Conversion result: " + conversionCurrency);
+                } else {
+                    System.out.println("Oops, something not works. Try again.");
+                }
+            }else if(option == 5){
+                double amount = getValidAmount(scanner);
+                ExchangeRateResponse result = apiConnection.requestCurrency("EUR");
+
+                if (result != null) {
+                    // Si la conversión fue exitosa, mostrar los resultados
+                    double conversionCurrency = conversionsOperations.convertCurrency(result, amount, "MXN");
+                    System.out.println("\nSuccess:");
+                    System.out.println("base Currency: EUR");
+                    System.out.println("Target Currency: MXN");
+                    System.out.println("Amount: " + amount);
+                    System.out.println("Conversion result: " + conversionCurrency);
+                } else {
+                    System.out.println("Oops, something not works. Try again.");
+                }
+            } else if (option == 6){
+                double amount = getValidAmount(scanner);
+                ExchangeRateResponse result = apiConnection.requestCurrency("MXN");
+
+                if (result != null) {
+                    // Si la conversión fue exitosa, mostrar los resultados
+                    double conversionCurrency = conversionsOperations.convertCurrency(result, amount, "EUR");
+                    System.out.println("\nSuccess:");
+                    System.out.println("base Currency: MXN");
+                    System.out.println("Target Currency: EUR");
+                    System.out.println("Amount: " + amount);
+                    System.out.println("Conversion result: " + conversionCurrency);
+                } else {
+                    System.out.println("Oops, something not works. Try again.");
+                }
+            }else if (option == 7){
+                double amount = getValidAmount(scanner);
+                ExchangeRateResponse result = apiConnection.requestCurrency("ARS");
+
+                if (result != null) {
+                    // Si la conversión fue exitosa, mostrar los resultados
+                    double conversionCurrency = conversionsOperations.convertCurrency(result, amount, "MXN");
+                    System.out.println("\nSuccess:");
+                    System.out.println("base Currency: ARS");
+                    System.out.println("Target Currency: MXN");
+                    System.out.println("Amount: " + amount);
+                    System.out.println("Conversion result: " + conversionCurrency);
+                } else {
+                    System.out.println("Oops, something not works. Try again.");
+                }
+            }else if (option == 7){
+                double amount = getValidAmount(scanner);
+                ExchangeRateResponse result = apiConnection.requestCurrency("MXN");
+
+                if (result != null) {
+                    // Si la conversión fue exitosa, mostrar los resultados
+                    double conversionCurrency = conversionsOperations.convertCurrency(result, amount, "ARS");
+                    System.out.println("\nSuccess:");
+                    System.out.println("base Currency: MXN");
+                    System.out.println("Target Currency: ARS");
+                    System.out.println("Amount: " + amount);
+                    System.out.println("Conversion result: " + conversionCurrency);
+                } else {
+                    System.out.println("Oops, something not works. Try again.");
+                }
+            }else if (option == 9) {
+                apiConnection.showHistory();
             }
             // Opción 3: Salir
-            else if (option == 3) {
+            else if (option == 0) {
                 apiConnection.saveRequest();  // Guardar los datos en un archivo
                 System.out.println("Thanks for using the Currency Converter. Goodbye!");
                 break;
