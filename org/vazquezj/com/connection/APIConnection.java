@@ -14,9 +14,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class APIConnection {
-    private  static final String BASE_URL = "https://v6.exchangerate-api.com/v6/043dc0c335288a9efc5cdd23";
+    private static final String API_KEY = "043dc0c335288a9efc5cdd23";
+    private static final String BASE_URL = "https://v6.exchangerate-api.com/v6/" + API_KEY + "/";
     private HttpClient client;
-    Gson gson;
+    private static Gson gson;
 
     public APIConnection() {
         this.client = HttpClient.newHttpClient(); // Crear un cliente HTTP
@@ -24,10 +25,37 @@ public class APIConnection {
     }
 
     public CambioResponse convertCurrency(String base, String target, double amount) {
-        String direccion = BASE_URL + "pair/" + base + "/" + target + "/" + amount;
+        if (!validateParams(base, target)) {
+            return null;
+        }
 
+        String direccion = makeUrl(base, target, amount);
+
+        String json = fetchData(direccion, this.client);
+
+        CambioResponse cambioResponse = parserJSON(json);
+
+        if (cambioResponse == null) {
+            System.out.println("Error en la petición");
+            return null;
+        }
+        return cambioResponse;
+    }
+
+    public static boolean validateParams(String base, String target) {
+        if (base == null || target == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String makeUrl(String base, String target, double amount) {
+        return BASE_URL + "pair/" + base + "/" + target + "/" + amount;
+    }
+
+    public static String fetchData(String requestUrl, HttpClient client) {
         HttpRequest request = HttpRequest.newBuilder() // Crear una petición, pero aun no se ha enviado
-                .uri(URI.create(direccion))
+                .uri(URI.create(requestUrl))
                 .build();
         HttpResponse<String> response = null;
         try {
@@ -39,10 +67,10 @@ public class APIConnection {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        return response.body();
+    }
 
-        String json = response.body(); //obtenemos el cuerpo de la respuesta en formato crudo
-
-        // Usamos JsonParser para convertir el string JSON en un JsonObject que es un mapa clave-valor hecho objeto de Java
+    public static CambioResponse parserJSON(String json) {
         JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
         CambioResponse cambioResponse = null;
         if (jsonObject.has("result") && jsonObject.get("result").getAsString().equals("success")) {
@@ -54,5 +82,11 @@ public class APIConnection {
             return cambioResponse;
         }
         return cambioResponse;
+    }
+
+    public static void main(String[] args) {
+        APIConnection apiConnection = new APIConnection();
+        CambioResponse cambioResponse = apiConnection.convertCurrency("USD", "EURxzx", 100);
+        System.out.println(cambioResponse);
     }
 }
