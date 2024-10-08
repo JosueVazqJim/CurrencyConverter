@@ -1,7 +1,7 @@
 
 # CurrencyConverter
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/user/repo/releases)
-[![Last Release Date](https://img.shields.io/github/release-date/user/repo.svg)](https://github.com/JosueVazqJim/CurrencyConverter?tab=readme-ov-filereleases)
+[![Last Release Date](https://img.shields.io/github/release-date/user/repo.svg)](https://github.com/JosueVazqJim/CurrencyConverter/releases)
 
 A simple currency converter that fetches exchange rates from an API and allows users to convert between different currencies.
 
