@@ -162,6 +162,10 @@ public class Menu {
                 System.out.println("Thanks for using the Currency Converter. Goodbye!");
                 break;
             }
+            //por si introducen caracteres
+            else if (option != Integer.parseInt(String.valueOf(option))) {
+                System.out.println("Invalid option. Please try again.");
+            }
             // Si el usuario elige una opción no válida
             else {
                 System.out.println("Invalid option. Please try again.");
