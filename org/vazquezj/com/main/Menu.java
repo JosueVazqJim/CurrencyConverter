@@ -22,12 +22,9 @@ public class Menu {
 
             // Opción 1: Realizar conversión de moneda
             if (option == 1) {
-                System.out.print("Enter base currency (ej. USD): ");
-                String base = scanner.next().toUpperCase();  // Convertir a mayúsculas para que sea consistente
-                System.out.print("Enter target currency (ej. EUR): ");
-                String target = scanner.next().toUpperCase();  // Convertir a mayúsculas
-                System.out.print("Enter the amount: ");
-                double amount = scanner.nextDouble();
+                String base = getValidCurrency(scanner, "base");
+                String target = getValidCurrency(scanner, "target");
+                double amount = getValidAmount(scanner);
 
                 // Llamar al método para realizar la conversión
                 CambioResponse result = apiConnection.convertCurrency(base, target, amount);
@@ -40,12 +37,12 @@ public class Menu {
                     System.out.println("Amount: " + amount);
                     System.out.println(result);
                 } else {
-                    System.out.println("Hubo un error al realizar la conversión. Intenta de nuevo.");
+                    System.out.println("Oops, something not works. Try again.");
                 }
             }
             // Opción 2: Salir
             else if (option == 2) {
-                System.out.println("Thnaks for using the app. Goodbye!");
+                System.out.println("Thnaks for using me. Goodbye!");
                 break;
             }
             // Si el usuario elige una opción no válida
@@ -55,5 +52,45 @@ public class Menu {
         }
 
         scanner.close();  // Cerrar el scanner al terminar
+    }
+
+    private String getValidCurrency(Scanner scanner, String type) {
+        String currency = "";
+        boolean valid = false;
+        while (!valid) {
+            System.out.print("Enter " + type + " currency (ej. USD): ");
+            currency = scanner.next().toUpperCase();  // Convertir a mayúsculas para consistencia
+
+            // Verificar si el valor ingresado es un código de moneda válido
+            if (currency.matches("[A-Za-z]{3}")) {  // Un código de moneda debe ser de 3 letras (Ej: USD, EUR)
+                valid = true;
+            } else {
+                System.out.println("Oops, something not works. Try again with only 3 letters");
+            }
+        }
+        return currency;
+    }
+
+    // Método para obtener una cantidad válida (double)
+    private double getValidAmount(Scanner scanner) {
+        double amount = 0.0;
+        boolean valid = false;
+        while (!valid) {
+            try {
+                System.out.print("Introduce the amount: ");
+                amount = scanner.nextDouble();
+
+                // Verificar si la cantidad es mayor a 0
+                if (amount > 0) {
+                    valid = true;
+                } else {
+                    System.out.println("It must be higher than 0.");
+                }
+            } catch (Exception e) {
+                System.out.println("Please, it must be a valid number.");
+                scanner.next();  // Limpiar el buffer del scanner
+            }
+        }
+        return amount;
     }
 }

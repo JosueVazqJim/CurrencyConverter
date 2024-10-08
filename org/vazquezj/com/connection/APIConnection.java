@@ -25,7 +25,7 @@ public class APIConnection {
     }
 
     public CambioResponse convertCurrency(String base, String target, double amount) {
-        if (!validateParams(base, target)) {
+        if (!validateParams(base, target, amount)) {
             return null;
         }
 
@@ -41,8 +41,14 @@ public class APIConnection {
         return cambioResponse;
     }
 
-    public static boolean validateParams(String base, String target) {
+    public static boolean validateParams(String base, String target, double amount) {
         if (base == null || target == null) {
+            return false;
+        }
+        if (base.isEmpty() || target.isEmpty()) {
+            return false;
+        }
+        if (amount <= 0) {
             return false;
         }
         return true;
