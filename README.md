@@ -1,9 +1,12 @@
 
 # CurrencyConverter
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/user/repo/releases)
-[![Last Release Date](https://img.shields.io/github/release-date/user/repo.svg)](https://github.com/JosueVazqJim/CurrencyConverter/releases)
+
+
+
 
 A simple currency converter that fetches exchange rates from an API and allows users to convert between different currencies.
+
 
 ## Features
 
@@ -21,3 +24,13 @@ A simple currency converter that fetches exchange rates from an API and allows u
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/Currency-Converter.git
+
+## Tech Stack
+
+**Language:** Java
+
+**Libraries:** HttpClient, Gson
+
+## Authors
+
+- [@JosueVazqJim](https://github.com/JosueVazqJim)
