@@ -28,12 +28,9 @@ public class CambioResponse {
 
     @Override
     public String toString() {
-        return "CambioResponse{" +
-                "result='" + result + '\'' +
-                ", time_last_update_utc='" + time_last_update_utc + '\'' +
-                ", time_next_update_utc='" + time_next_update_utc + '\'' +
-                ", conversion_rate=" + conversion_rate +
-                ", conversion_result=" + conversion_result +
-                '}';
+        return "Time last update: '" + time_last_update_utc + '\n' +
+                "Time next update: " + time_next_update_utc + '\n' +
+                "Conversion rate: " + conversion_rate + '\n' +
+                "Conversion result: " + conversion_result;
     }
 }

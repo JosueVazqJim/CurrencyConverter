@@ -36,7 +36,6 @@ public class APIConnection {
         CambioResponse cambioResponse = parserJSON(json);
 
         if (cambioResponse == null) {
-            System.out.println("Error en la petición");
             return null;
         }
         return cambioResponse;
@@ -82,11 +81,5 @@ public class APIConnection {
             return cambioResponse;
         }
         return cambioResponse;
-    }
-
-    public static void main(String[] args) {
-        APIConnection apiConnection = new APIConnection();
-        CambioResponse cambioResponse = apiConnection.convertCurrency("USD", "EURxzx", 100);
-        System.out.println(cambioResponse);
     }
 }
